@@ -1,8 +1,10 @@
-name: "Build, Test, Deploy"
+name: 'Build, Test, Deploy'
 
 on:
   pull_request: #{ types: [ready_for_review] }
-  push: { branches: [master] }
+  push: { branches: [main] }
+  schedule:
+    - cron: "36 */5 * * *"
   #release: { types: [published] }
 
 concurrency:
@@ -18,7 +20,7 @@ env:
 jobs:
   bat:
     runs-on: ubuntu-latest
-
+    environment: production
     steps:
       - name: Clone repo
         uses: actions/checkout@v2
@@ -38,7 +40,7 @@ jobs:
       - name: Start cms
         run: cd cms; npm run develop &> /tmp/cms.log &
         env:
-          INITIALIZE_DATA: "true"
+          INITIALIZE_DATA: 'true'
 
       - name: Check cms running
         uses: actions/github-script@v5
@@ -139,10 +141,16 @@ jobs:
         run: |
           pkill -9 -F /tmp/app.pid
           cd app; npm run build
-        env: { NEXT_PUBLIC_STRAPI_API_URL: "http://localhost:1337" }
+        env:
+          NEXT_PUBLIC_STRAPI_API_URL: 'http://localhost:1337'
+          NEXT_PUBLIC_EVENT_BACKEND_URL: ${{ secrets.EVENT_BACKEND_URL }}
+          NEXT_PUBLIC_DISCOURSE_HOST: ${{ secrets.DISCOURSE_HOST }}
+          DISCOURSE_HOST: ${{ secrets.DISCOURSE_HOST }}
+          STATS_URL: ${{ secrets.STATS_URL }}
+          GSOC_LEADERBOARD_BASE_URL: ${{ secrets.GSOC_LEADERBOARD_BASE_URL }}
 
       - name: Generate archive
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
         run: |
           cd app
           echo $GITHUB_SHA > /tmp/.github_sha
@@ -157,7 +165,7 @@ jobs:
             /tmp/.github_ref
 
       - name: Upload archive
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
         uses: actions/upload-artifact@v3
         with:
           name: build
@@ -165,7 +173,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' }} # don't wanna run on prs
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }} # don't wanna run on prs
     needs: [bat]
 
     steps:
@@ -202,7 +210,7 @@ jobs:
       #       pm2 reload ecosystem.config.js
 
       - name: Push archive and start service
-        uses: debdutdeb/rc4community.deploy.action@main
+        uses: sing-li/rc4community.deploy.action@main
         with:
           remote_host: ${{ secrets.REMOTE_HOST }}
           remote_port: ${{ secrets.REMOTE_PORT }}

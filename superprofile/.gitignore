@@ -1,6 +1,0 @@
-init_flag
-init_key_flag
-gc.log.*
-*.log
-dbkey
-db/

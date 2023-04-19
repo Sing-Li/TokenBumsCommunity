@@ -1,15 +1,15 @@
 module.exports = {
   apps: [
     {
-      name: "rc4community",
-      script: "npm",
-      args: "start -- -p 8090",
-      pid_file: "/tmp/rc4community.pid",
+      name: 'tokenbums community',
+      script: 'npm',
+      args: 'start -- -p 8095',
+      pid_file: '/tmp/tokenbums.pid',
       max_restarts: 10,
       autorestarts: true,
-      error_file: "rc4community.error.log",
-      out_file: "rc4community.log",
-      exec_mode: "fork",
+      error_file: 'tokenbums.log',
+      out_file: 'tokenbums.log',
+      exec_mode: 'fork',
       instances: 1,
     },
   ],

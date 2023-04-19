@@ -1,26 +1,31 @@
 import '../styles/Layout.module.css';
 import Footer from './footer';
-import NewMenubar from './menubar/newMenuBar';
-import { useRouter } from 'next/router';
+import { MenuBar } from './menubar';
 
 function Layout(props) {
-  const { pathname } = useRouter();
   return (
     <>
-      <NewMenubar menu={props.menu.topNavItems} brandInfo={props.brandInfo} />
+      <div className="announcement_strip">
+        <a
+          href="/conferences/c/GSoC-Alumni-Summit-2023"
+          style={{ textDecoration: 'none', color: 'white' }}
+        >
+          <h6>
+            📢 Join our GSoC&apos;23 Alumni Summit at{' '}
+            {new Date('2023-03-30T06:00:00-04:00').toLocaleString('en-GB', {
+              day: '2-digit',
+              month: '2-digit',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+              timeZoneName: 'short',
+            })}
+          </h6>
+        </a>
+      </div>
+      <MenuBar menu={props.menu.topNavItems} brandInfo={props.brandInfo} />
       {props.children}
       <Footer />
-      {/* announcement component here*/}
-      {/* pathname === '/virtualconf/mainstage' && (
-        <p className={styles.announcement}>
-          <span className={styles.announcement__svg}>
-            <BookmarkSVG />
-          </span>{' '}
-          Bookmark this page and come back on{' '}
-          <span className={styles.announcement__text}>April 6</span> for the
-          LIVE conference
-        </p>
-      )*/}
     </>
   );
 }

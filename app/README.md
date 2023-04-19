@@ -14,4 +14,4 @@ You can use ethe environment variable `NEXT_PUBLIC_STRAPI_API_URL` to override t
 ```
 NEXT_PUBLIC_STRAPI_API_URL=http://127.0.0.1:1337  npm run dev
 ```
-Now RC4Community should be accessible from http://localhost:3000
+Now GSoC Cummunity Hub should be accessible from http://localhost:3000
