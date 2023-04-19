@@ -9,8 +9,8 @@ import { GrowthCounters } from '../components/GrowthCounters';
 import { GSoCLeaderboard, GSoCStats } from '../components/GSoCLeaderboard';
 
 export const metadata = {
-  title: 'Rocket.Chat: Communications Platform You Can Fully Trust',
-  description: 'Rocket.Chat is a Communications Platform You Can Fully Trust',
+  title: 'Tokenbums community: Working together to advance Web3',
+  description: 'Working together to advance Web3 right through the Great Crypto Bust of 2022',
 };
 
 export default async function Page() {
@@ -24,12 +24,12 @@ export default async function Page() {
           <h1
             className={`display-4 fw-bold text-center ${styles.hero_heading}`}
           >
-            Welcome to the rockonpi <span className={styles.redText}>community</span>
+            Welcome to the tokenbums <span className={styles.redText}>community</span>
           </h1>
           <p
             className={`fw-regular col-10 col-md-8 text-center ${styles.hero_subheading}`}
           >
-            Let&apos;s collaborate in shaping the future of Rocket.Chat on Raspberry Pi and ARM64 SBCs together!
+            Let&apos;s working together to advance the state of Web3!
           </p>
         </div>
         <div className="col">
